@@ -1,0 +1,18 @@
+name: Kernel Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Kernel Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Clone Kernel
+        run: |
+          git clone https://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@github.com/ngankbka/android_kernel_p3s.git WORKSPACE
+      - name: Build Kernel
+        run: |
+          cd WORKSPACE && bash build_kernel.sh
