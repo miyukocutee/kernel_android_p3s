@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Clone Kernel
         run: |
-          git clone https://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@github.com/ngankbka/android_kernel_p3s.git WORKSPACE
+          git clone https://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@github.com/ngankbka/kernel_android_p3s.git WORKSPACE
       - name: Build Kernel
         run: |
           cd WORKSPACE && bash build_kernel.sh
