@@ -52,7 +52,7 @@ caption=$(echo -e \
 ✅ Build Successfully!
 📅 Date: "$(date +%d\ %B\ %Y)"
 ⏱ Time: "$(date +%T)"
-🔐 MD5: "$(md5sum "/home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/out/SakuraInstallerUwU.zip" | cut -d ' ' -f 1)"
+🔐 MD5: "$(md5sum "out/SakuraInstallerUwU.zip" | cut -d ' ' -f 1)"
 📝 Version: "$VERSION.$PATCHLEVEL.$SUBLEVEL"
 🖥 Build Host Info:
 - Total CPU Cores: "$(nproc)"
@@ -63,17 +63,17 @@ caption=$(echo -e \
 - OS: "$(uname -s)"
 ")
 
-if [ ! -e /home/runner/work/android_kernel_p3s/android_kernel_p3s/arch/arm64/boot/Image ]; then
-    cd /home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/log
+if [ ! -e arch/arm64/boot/Image ]; then
+    cd log
     zip -r Log.zip *
     cd ..
-    curl -F chat_id=-1002108403014 -F document=@/home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/log/Log.zip -F caption="$error_caption" -F parse_mode=Markdown https://api.telegram.org/bot6977733654:AAHWYfBN7IwFUW5aAGhWGHFnvSwl_89h-jE/sendDocument
+    curl -F chat_id=-1002108403014 -F document=@log/Log.zip -F caption="$error_caption" -F parse_mode=Markdown https://api.telegram.org/bot6977733654:AAHWYfBN7IwFUW5aAGhWGHFnvSwl_89h-jE/sendDocument
     exit 1
 fi
 
 
-mv /home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/arch/arm64/boot/Image /home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/out/zImage
-cd /home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/out
+mv arch/arm64/boot/Image out/zImage
+cd out
 zip -r SakuraInstallerUwU.zip *
 cd ..
 
@@ -88,4 +88,4 @@ do
     fi
 done < Makefile
 
-curl -F chat_id=-1002108403014 -F document=@/home/runner/work/android_kernel_p3s/android_kernel_p3s/WORKSPACE/out/SakuraInstallerUwU.zip -F caption="$caption" -F parse_mode=Markdown https://api.telegram.org/bot6977733654:AAHWYfBN7IwFUW5aAGhWGHFnvSwl_89h-jE/sendDocument
+curl -F chat_id=-1002108403014 -F document=@out/SakuraInstallerUwU.zip -F caption="$caption" -F parse_mode=Markdown https://api.telegram.org/bot6977733654:AAHWYfBN7IwFUW5aAGhWGHFnvSwl_89h-jE/sendDocument
