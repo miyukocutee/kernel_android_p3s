@@ -1,6 +1,7 @@
 #!/bin/bash
 DIR=`readlink -f .`
 PARENT_DIR=`readlink -f ${DIR}/..`
+
 export PLATFORM_VERSION=11
 export ANDROID_MAJOR_VERSION=r
 export SEC_BUILD_CONF_VENDOR_BUILD_OS=13
@@ -13,15 +14,18 @@ export PATH=$PATH:$LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN:$CLANG_PREBUILT_BIN
 export LLVM=1
 export USE_CCACHE=1
 export CCACHE_EXEC=/usr/bin/ccache
+#export CCACHE_DIR=/mnt/ccache
+ccache -M 50G -F 0
+sudo apt-get install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip   | tee log/setup
 
-sudo apt-get install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip
-git clone https://github.com/ngankbka/clang-r383902.git $PARENT_DIR/clang-r383902
 git clone --branch android-9.0.0_r59 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 $PARENT_DIR/aarch64-linux-android-4.9
+git clone https://github.com/AOSP-10/prebuilts_clang_host_linux-x86_clang-r383902 $PARENT_DIR/clang-r383902
 
-ccache -M 50G -F 0  | tee log/ccache
+
 mkdir log
-make ARCH=arm64 exynos2100-p3sxxx_defconfig | tee log/make_defconfig
-make ARCH=arm64 -j16 | tee log/make_kernel
+make clean && make mrproper
+make exynos2100-p3sxxx_defconfig | tee log/make_defconfig
+make -j16 | tee log/make_kernel
 
 
 error_caption=$(echo -e \
