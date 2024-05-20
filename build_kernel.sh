@@ -2,6 +2,7 @@
 DIR=`readlink -f .`
 PARENT_DIR=`readlink -f ${DIR}/..`
 
+u
 export PLATFORM_VERSION=11
 export ANDROID_MAJOR_VERSION=r
 export SEC_BUILD_CONF_VENDOR_BUILD_OS=13
@@ -24,8 +25,8 @@ git clone https://github.com/AOSP-10/prebuilts_clang_host_linux-x86_clang-r38390
 
 mkdir log
 make clean && make mrproper
-make exynos2100-p3sxxx_defconfig | tee log/make_defconfig
-make -j16 | tee log/make_kernel
+make PLATFORM_VERSION=11 ANDROID_MAJOR_VERSION=r ARCH=arm64 LLVM=1 CLANG_PREBUILT_BIN=../clang-r383902/bin LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=../aarch64-linux-android-4.9/bin CLANG_TRIPLE=../clang-r383902/bin/aarch64-linux-gnu- CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android- exynos2100-p3sxxx_defconfig | tee log/make_defconfig
+make PLATFORM_VERSION=11 ANDROID_MAJOR_VERSION=r ARCH=arm64 LLVM=1 CLANG_PREBUILT_BIN=../clang-r383902/bin LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=../aarch64-linux-android-4.9/bin CLANG_TRIPLE=../clang-r383902/bin/aarch64-linux-gnu- CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android- -j16 | tee log/make_kernel
 
 
 error_caption=$(echo -e \
